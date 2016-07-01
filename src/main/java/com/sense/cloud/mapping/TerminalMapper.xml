@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sense.cloud.dao.TerminalMapper" >
+  <resultMap id="BaseResultMap" type="com.sense.cloud.entity.Terminal" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="project_name" property="projectName" jdbcType="VARCHAR" />
+    <result column="responsible_name" property="responsibleName" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, name, project_name, responsible_name
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from terminal
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from terminal
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.sense.cloud.entity.Terminal" >
+    insert into terminal (id, name, project_name, 
+      responsible_name)
+    values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{projectName,jdbcType=VARCHAR}, 
+      #{responsibleName,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sense.cloud.entity.Terminal" >
+    insert into terminal
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="projectName != null" >
+        project_name,
+      </if>
+      <if test="responsibleName != null" >
+        responsible_name,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="projectName != null" >
+        #{projectName,jdbcType=VARCHAR},
+      </if>
+      <if test="responsibleName != null" >
+        #{responsibleName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sense.cloud.entity.Terminal" >
+    update terminal
+    <set >
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="projectName != null" >
+        project_name = #{projectName,jdbcType=VARCHAR},
+      </if>
+      <if test="responsibleName != null" >
+        responsible_name = #{responsibleName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sense.cloud.entity.Terminal" >
+    update terminal
+    set name = #{name,jdbcType=VARCHAR},
+      project_name = #{projectName,jdbcType=VARCHAR},
+      responsible_name = #{responsibleName,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <select id="getAll"  resultMap="BaseResultMap" >
+    select * from terminal
+  </select>
+
+</mapper>

@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sense.cloud.dao.ErrorCodeMapper" >
+  <resultMap id="BaseResultMap" type="com.sense.cloud.entity.ErrorCode" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="code" property="code" jdbcType="VARCHAR" />
+    <result column="terminal_id" property="terminalId" jdbcType="VARCHAR" />
+    <result column="description" property="description" jdbcType="VARCHAR" />
+    <result column="remarks" property="remarks" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <resultMap id="terminalResultMap" type="com.sense.cloud.entity.Terminal" >
+    <id column="terminal_id" property="id" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="project_name" property="projectName" jdbcType="VARCHAR" />
+    <result column="responsible_name" property="responsibleName" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <resultMap id="associationResultMap" type="com.sense.cloud.entity.ErrorCode" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="code" property="code" jdbcType="VARCHAR" />
+    <result column="terminal_id" property="terminalId" jdbcType="VARCHAR" />
+    <result column="description" property="description" jdbcType="VARCHAR" />
+    <result column="remarks" property="remarks" jdbcType="VARCHAR" />
+    <association property="terminal" column="terminal_id"
+                 javaType="com.sense.cloud.entity.Terminal" resultMap="terminalResultMap">
+
+    </association>
+  </resultMap>
+
+
+  <sql id="Base_Column_List" >
+    id, code, terminal_id, description, remarks
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from error_code
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from error_code
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.sense.cloud.entity.ErrorCode" >
+    insert into error_code (id, code, terminal_id, 
+      description, remarks)
+    values (#{id,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR}, #{terminalId,jdbcType=VARCHAR}, 
+      #{description,jdbcType=VARCHAR}, #{remarks,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sense.cloud.entity.ErrorCode" >
+    insert into error_code
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="code != null" >
+        code,
+      </if>
+      <if test="terminalId != null" >
+        terminal_id,
+      </if>
+      <if test="description != null" >
+        description,
+      </if>
+      <if test="remarks != null" >
+        remarks,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="code != null" >
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="terminalId != null" >
+        #{terminalId,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null" >
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null" >
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sense.cloud.entity.ErrorCode" >
+    update error_code
+    <set >
+      <if test="code != null" >
+        code = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="terminalId != null" >
+        terminal_id = #{terminalId,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null" >
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null" >
+        remarks = #{remarks,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sense.cloud.entity.ErrorCode" >
+    update error_code
+    set code = #{code,jdbcType=VARCHAR},
+      terminal_id = #{terminalId,jdbcType=VARCHAR},
+      description = #{description,jdbcType=VARCHAR},
+      remarks = #{remarks,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+  <select id="getAll"  resultMap="associationResultMap" >
+    select * from error_code e JOIN terminal t on e.terminal_id=t.id
+  </select>
+
+  <select id="getListByTerminal"  resultMap="associationResultMap" parameterType="java.lang.String">
+    select * from error_code e JOIN terminal t on e.terminal_id=t.id where terminal_id=#{id}
+  </select>
+
+  <select id="searchCodeOrDesc"  resultMap="associationResultMap" parameterType="java.lang.String">
+    select * from error_code e JOIN terminal t on e.terminal_id=t.id where code like concat('%',#{searchText},'%') or description like concat('%',#{searchText},'%') order by code
+  </select>
+
+</mapper>

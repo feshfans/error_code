@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>错误码查询</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <!-- Bootstrap 3.3.5 -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <!-- Ionicons -->
+<!--     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css"> -->
+    <!-- Theme style -->
+    <link rel="stylesheet" href="css/AdminLTE.min.css">
+    <!-- AdminLTE Skins. Choose a skin from the css/skins
+         folder instead of downloading all of them to reduce the load. -->
+    <link rel="stylesheet" href="css/_all-skins.min.css">
+    <link rel="stylesheet" href="css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/custom.css">
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="js/html5shiv.min.js"></script>
+        <script src="js/respond.min.js"></script>
+    <![endif]-->
+
+
+  </head>
+  <body class="hold-transition skin-blue sidebar-mini">
+    <div class="wrapper">
+
+      <header class="main-header">
+        <!-- Logo -->
+        <a href="#" class="logo">
+          <!-- mini logo for sidebar mini 50x50 pixels -->
+          <span class="logo-mini"><b>Sense</b></span>
+          <!-- logo for regular state and mobile devices -->
+          <span class="logo-lg"><b>Sense</b></span>
+        </a>
+        <!-- Header Navbar: style can be found in header.less -->
+        <nav class="navbar navbar-static-top" role="navigation">
+          <!-- Sidebar toggle button-->
+          <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+            <span class="sr-only">Toggle navigation</span>
+          </a>
+
+        </nav>
+      </header>
+
+      <!-- 左边主菜单 -->
+      <!-- Left side column. contains the logo and sidebar -->
+      <aside class="main-sidebar">
+        <!-- sidebar: style can be found in sidebar.less -->
+        <section class="sidebar">
+
+          <!-- Sidebar user panel -->
+          <!--<div class="user-panel">
+            <div class="pull-left image">
+              <img src="img/user2-160x160.jpg" class="img-circle" alt="User Image">
+            </div>
+            <div class="pull-left info">
+              <p>Alexander Pierce</p>
+              <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
+            </div>
+          </div>-->
+
+          <ul class="sidebar-menu">
+
+            <li class="header">配置管理</li>
+
+            <li class="treeview" id="code-manager">    <!--  class="active"  加上页面加载完自动打开 -->
+              <a href="#">
+                <i class="fa fa-dashboard"></i> <span>错误码管理</span>
+              </a>
+
+            </li>
+
+            <li class="treeview" id="terminal-manager">
+              <a href="#">
+                <i class="fa fa-files-o"></i>
+                <span>模块管理</span>
+              </a>
+            </li>
+          </ul>
+
+        </section>
+        <!-- /.sidebar -->
+      </aside>
+
+     <!--  右边主要内容框 -->
+      <div class="content-wrapper">
+
+        <!-- 内容头 -->
+       <div id="code">
+
+        <section class="content-header" >
+            <select class="form-control" style="width: 100px; float: left;" id="code-type-terminal">
+
+            </select>
+
+
+          <button id="add-code" data-op="新增" type="button" class="btn btn-primary" data-toggle="modal" data-target="#codeModal" style="margin-left: 20px;">新 增</button>
+          <button id="update-code" data-op="修改" type="button" class="btn btn-primary" data-toggle="modal" data-target="#codeModal" >修 改</button>
+          <button id="delete-code" type="button" class="btn btn-primary" >删 除</button>
+          <button type="button" class="btn btn-primary" id="import-code">导 入</button>
+
+
+
+          <!-- search  -->
+          <ol class="breadcrumb">
+            <form class="form-inline">
+              <div class="form-group">
+                <input type="text" class="form-control" id="code-search" placeholder="search code or description" >
+              </div>
+            </form>
+          </ol>
+        </section>
+        <section class="content">
+          <table class="table table-bordered">
+            <table class="table table-bordered table-hover">
+              <thead>
+              <tr>
+                <th>#</th>
+                <th style="width: 50px;">选择</th>
+                <th style="width: 100px;">错误码</th>
+                <th>描述</th>
+                <th>模块</th>
+                <th>备注</th>
+                <th style="width: 100px;">负责人</th>
+              </tr>
+              </thead>
+              <tbody id="code-tbody">
+
+              </tbody>
+            </table>
+          </table>
+
+        </section>
+
+         <div class="modal fade" id="codeModal" tabindex="-1" role="dialog" aria-labelledby="codeModalLabel">
+           <div class="modal-dialog" role="document">
+             <div class="modal-content">
+               <div class="modal-header">
+                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                 <h4 class="modal-title" id="codeModalLabel">错误码</h4>
+               </div>
+               <div class="modal-body">
+
+                 <form class="form-horizontal" id="code-form">
+                   <div class="form-group">
+
+                     <div class="col-sm-10">
+                       <input type="hidden" class="form-control" id="code-id" name="id" placeholder="code">
+                     </div>
+                   </div>
+                   <div class="form-group">
+                     <label for="code-name" class="col-sm-2 control-label">Code :</label>
+                     <div class="col-sm-10">
+                       <input type="text" class="form-control" id="code-name" name="code" placeholder="code">
+                     </div>
+                   </div>
+                   <div class="form-group">
+                     <label class="col-sm-2 control-label">模块 :</label>
+                     <div class="col-sm-10">
+                       <!--<input type="text" class="form-control" id="terminal-id-fk" placeholder="模块">-->
+                       <select class="form-control" style="width: 100px; float: left;" id="code-form-terminal" name="terminalId">
+
+                       </select>
+                     </div>
+                   </div>
+
+                   <div class="form-group">
+                     <label for="code-desc" class="col-sm-2 control-label">描述 :</label>
+                     <div class="col-sm-10">
+                       <input type="text" class="form-control" id="code-desc" placeholder="description" name="description">
+                     </div>
+                   </div>
+
+                   <div class="form-group">
+                     <label for="code-remarks" class="col-sm-2 control-label">备注 :</label>
+                     <div class="col-sm-10">
+                       <input type="text" class="form-control" id="code-remarks" placeholder="remarks" name="remarks">
+                     </div>
+                   </div>
+
+                 </form>
+               </div>
+               <div class="modal-footer">
+                 <button type="button" class="btn btn-primary" id="save-code">保 存</button>
+                 <button type="button" class="btn btn-default" data-dismiss="modal" >取 消</button>
+               </div>
+             </div>
+           </div>
+         </div>
+
+       </div>
+
+        <div id="terminal" style="display: none">
+          <section class="content-header" >
+
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#terminalModal" id="add-terminal" data-op="新增">新 增</button>
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#terminalModal" id="update-terminal" data-op="修改">修 改</button>
+            <button type="button" class="btn btn-primary" id="delete-terminal">删 除</button>
+
+          </section>
+
+          <!-- Main content -->
+          <section class="content">
+            <table class="table table-bordered">
+              <table class="table table-bordered table-hover" id="terminal-table">
+                <thead>
+                <tr>
+                  <th>#</th>
+                  <th>选择</th>
+                  <th>模块名</th>
+                  <th>负责人</th>
+                  <th>项目名</th>
+                </tr>
+                </thead>
+                <tbody id="terminal-tbody">
+
+                </tbody>
+              </table>
+            </table>
+
+          </section>
+
+
+          <div class="modal fade" id="terminalModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                  <h4 class="modal-title" id="terminalModalLabel">模块</h4>
+                </div>
+                <div class="modal-body">
+
+                  <form class="form-horizontal" id="terminal-form">
+                    <div class="form-group">
+                      <div class="col-sm-10">
+                        <input type="hidden" class="form-control" id="terminal-id" name="id" placeholder="code">
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label for="terminal-name" class="col-sm-2 control-label">模块名 :</label>
+                      <div class="col-sm-10">
+                        <input type="text" class="form-control" id="terminal-name" name="name" placeholder="module name">
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label for="terminal-responsible" class="col-sm-2 control-label">负责人 :</label>
+                      <div class="col-sm-10">
+                        <input type="text" class="form-control" id="terminal-responsible" name="responsibleName" placeholder="负责人">
+                      </div>
+                    </div>
+
+                    <div class="form-group">
+                      <label for="project-name" class="col-sm-2 control-label">项目 :</label>
+                      <div class="col-sm-10">
+                        <input type="text" class="form-control" id="project-name" name="projectName" placeholder="所属项目">
+                      </div>
+                    </div>
+
+                  </form>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-primary" id="save-terminal">保 存</button>
+                  <button type="button" class="btn btn-default" data-dismiss="modal">取 消</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- 页脚 -->
+      <footer class="main-footer">
+        <div class="pull-right hidden-xs">
+          <b>Version</b> 1.0
+        </div>
+        <strong>Copyright &copy; 2014-2016 <a href="#">深思数盾</a>.</strong> All rights reserved.
+      </footer>
+
+      <!-- Control Sidebar -->
+      <aside class="control-sidebar control-sidebar-dark">
+        <!-- header 上的设置 -->
+        <ul class="nav nav-tabs nav-justified control-sidebar-tabs">
+          <li><a href="#control-sidebar-home-tab" data-toggle="tab"><i class="fa fa-home"></i></a></li>
+          <li><a href="#control-sidebar-settings-tab" data-toggle="tab"><i class="fa fa-gears"></i></a></li>
+        </ul>
+      </aside>
+    </div>
+
+
+
+    <script src="js/jQuery-2.1.4.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/bootstrap-filestyle.min.js"></script>
+    <script src="js/app.min.js"></script>
+
+    <script src="js/main.js"></script>
+
+  </body>
+</html>
